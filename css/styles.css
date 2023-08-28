@@ -10,16 +10,63 @@
 body{
     height: 100vh;
     font-family: 'Montserrat', 'Open Sans', 'Raleway', 'Rubik', sans-serif;
+    background-image: url(&quot;images/2.jpg&quot); /* Adjust the path as needed */
+    background-size: cover; /* Adjust the background size as needed */
+    background-repeat: no-repeat; /* Prevent background image from repeating */
+    background-position: center; /* Center the background image */
 }
-.tab{
-    display: inline-block;
-    padding: 8px 16px ;
-    margin-right: 8px;
-    border: 1px solid black;
-    border-radius: 4px ;
-    cursor: pointer;
-    margin-bottom: 30px;
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
+    padding: 10px 0;
     transition: var(--transition);
+}
+.Links{
+    display: flex;
+    gap: 30px;
+    justify-content: flex-start;
+}
+.navbar img{
+    height: 38px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(15px, 8px);
+}
+li{
+    list-style: none;
+}
+.tab {
+    display: inline-block;
+    padding: 8px 0px;
+    margin-right: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: var(--transition);
+    font-size: 1rem;
+    font-weight: 600;
+}
+.tab::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 4px;
+    scale: 0 1;
+    transform-origin:right ;
+    transition: scale 0.2s;
+    color: black;
+    border-bottom: 3px solid black;
+}
+.tab:hover::before {
+    scale: 1;
+    transform-origin: left;
+    color: black;
+    border-bottom: 3px solid black;
 }
 .contact-form{
     display: flex;
@@ -37,8 +84,11 @@ input{
 }
 .page-content {
     text-align: center;
-    padding: 20px;
+    padding: 0px 20px 20px;
     transition: var(--transition);
+}
+.page-content h1{
+    font-weight: 900;
 }
 .background-image {
     width: 50%;
