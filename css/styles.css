@@ -10,10 +10,9 @@
 body{
     height: 100vh;
     font-family: 'Montserrat', 'Open Sans', 'Raleway', 'Rubik', sans-serif;
-    background-image: url(&quot;images/2.jpg&quot); /* Adjust the path as needed */
-    background-size: cover; /* Adjust the background size as needed */
-    background-repeat: no-repeat; /* Prevent background image from repeating */
-    background-position: center; /* Center the background image */
+}
+#content{
+    height: 100vh;
 }
 .navbar {
     display: flex;
@@ -84,7 +83,6 @@ input{
 }
 .page-content {
     text-align: center;
-    padding: 0px 20px 20px;
     transition: var(--transition);
 }
 .page-content h1{
@@ -99,7 +97,7 @@ input{
     border-radius: 5px;
 }
 .text{
-    width: 50%;
+    width: 90%;
     transition: var(--transition);
 }
 .two-side{
@@ -119,4 +117,74 @@ input[type="submit"]{
 }
 input[type="submit"]:hover{
     background-color: greenyellow;
+}
+.big-image img{
+    width: 400px;
+    transition: var(--transition);
+}
+/* for the menu page */
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 100px 0;
+    align-items: center;
+    transition: var(--transition);
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.container::after{
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: red;
+    position: absolute;
+    z-index: -1;
+    top: 14%;
+    clip-path: circle(62% at right 87%);
+}
+@media(min-width:1200px){
+    .page-content.with-after::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        background-color: red;
+        position: absolute;
+        z-index: 0;
+        left: 0;
+        top: 0;
+        clip-path: circle(50% at right 55%);
+    }
+    .container::after{
+        display: none;
+    }
+    }
+
+#content.lightseagreen-bg {
+    background: lightseagreen; /* Apply background color when the class is added */
+}
+.left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 100px;
+}
+.collection{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.left .collection img{
+    width:90px !important ;   
+}
+.coll{
+    transition: var(--transition);
+    padding: 1rem;
+}
+.coll:hover{
+    transform: scale(1.08);
 }
