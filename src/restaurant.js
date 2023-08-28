@@ -32,8 +32,8 @@ const creaRestaurantPage = () => {
 
     // Switch background option
 
-    let imagesArray = ["images/1.jpg", "images/2.jpg", "images/3.jpg", "images/4.jpg"];
-    let textArray = ["the real taste of naples","the true italian test","authustic tuscany flafor","lorem ,fkdqmdklkd kkdnn fdjfidp pfjpz"];
+    let imagesArray = ["images/1.jpg", "images/2.jpg", "images/3.jpg"];
+    let textArray = ["the real taste of naples","the true italian test","authustic tuscany flafor"];
     let backgroundInterval;
 
     function randomiseBackground() {
