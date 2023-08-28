@@ -29,5 +29,6 @@ const creatContentPage=()=>{
     
     pageContent.appendChild(form);
     content.appendChild(pageContent);
+
     };
     export default creatContentPage;

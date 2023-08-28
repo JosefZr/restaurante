@@ -42,19 +42,56 @@ const creatTab = ()=>{
     header.prepend(divLogo)
     content.appendChild(header);
 
-    div1.addEventListener('click',()=>{
-        clearContent()
+    function setBackground(color) {
+        const content = document.getElementById('content');
+        content.classList.add(`${color}-bg`);
+    }
+
+    function setBackground(color) {
+        content.classList.add(`${color}-bg`);
+    }
+
+    function clearBack() {
+        content.classList.remove('lightseagreen-bg');
+    }
+
+    div1.addEventListener('click', () => {
+        clearContent();
         creaRestaurantPage();
-    })
-    div2.addEventListener('click',()=>{
-        clearContent()
+        clearBack();
+        removeAfter(); // Remove the ::after pseudo-element
+    });
+    
+    div2.addEventListener('click', () => {
+        clearContent();
         creatMenuPage();
-    })
-    div3.addEventListener('click',()=>{
-        clearContent()
+        setBackground('lightseagreen');
+        addAfter(); // Add the ::after pseudo-element
+    });
+    
+    div3.addEventListener('click', () => {
+        clearContent();
         creatContentPage();
-    })
-}   
+        clearBack();
+        removeAfter(); // Remove the ::after pseudo-element
+    });
+    
+    // ...
+    
+
+      // Clear the background color when leaving the "Menu" section
+    div1.addEventListener('click', clearBack);
+    div3.addEventListener('click', clearBack);
+}
+function addAfter() {
+    const pageContent = document.querySelector('.page-content');
+    pageContent.classList.add('with-after');
+}
+
+function removeAfter() {
+    const pageContent = document.querySelector('.page-content');
+    pageContent.classList.remove('with-after');
+}
 function clearContent(){
     const content =document.querySelector("#content");
     const pageContent = document.querySelector(".page-content");
@@ -62,4 +99,5 @@ function clearContent(){
         content.removeChild(pageContent);
     }
 }
+
 export default creatTab;
