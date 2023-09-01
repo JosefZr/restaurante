@@ -11,6 +11,8 @@ const creatTab = ()=>{
     const div2 = document.createElement('div');
     const div3 = document.createElement('div');
     const divCart = document.createElement('div');
+    let spanCart = document.createElement('span');
+    const list = document.createElement('list')
     const burger = document.createElement('div');
     const divLogo = document.createElement('div');
 
@@ -25,6 +27,8 @@ const creatTab = ()=>{
     div2.classList.add('tab');
     div3.classList.add('tab');
     divCart.classList.add('cart');
+    spanCart.classList.add('quantity');
+    list.classList.add('list');
     burger.classList.add('burger');
     divLogo.classList.add("logo");
 
@@ -32,10 +36,40 @@ const creatTab = ()=>{
     div1.textContent='Home';
     div2.textContent='Menu';
     div3.textContent='Contact';
-    divCart.innerHTML='<i class="fa-regular fa-cart-plus"></i>';
+    spanCart.textContent='0';
+    divCart.innerHTML='<i class="fa-light fa-bag-shopping fa-2x"></i>';
+    divCart.appendChild(spanCart);
     burger.innerHTML=`<i class="fa-solid fa-burger" ></i>`;
     divLogo.innerHTML='<img src="images/pizza-box.png">';
 
+      //srat the cart logic
+    //crreat a div with class card
+    const card = document.createElement('div');
+    card.classList.add('card');
+    //creat a heading with an text cart and append it to the big div with class cart
+    const h1 = document.createElement('h1');
+    h1.textContent='Card';
+    card.appendChild(h1);
+    //creat an ul with a class of listcard and append it to card
+    const ul = document.createElement('ul');
+    ul.classList.add('listCard'); // Corrected class name
+    card.appendChild(ul);
+    //creat a div with class checkout 
+    const checkout = document.createElement('div');
+    checkout.classList.add('checkout');
+    //creat another div inside of the checkout the hold the totale of shopping
+    //and other div to close 
+    const total = document.createElement('div')
+    total.classList.add('totale');
+    total.textContent="0";
+    const close = document.createElement('div');
+    close.classList.add('closeShopping');
+    close.textContent="close"
+
+    checkout.appendChild(total);
+    checkout.appendChild(close);
+    card.appendChild(checkout);
+    content.appendChild(card); 
     //append the divs to the content div
     links.appendChild(div1)
     links.appendChild(div2)
@@ -44,8 +78,10 @@ const creatTab = ()=>{
     header.appendChild(divCart)
     header.appendChild(burger)
     header.prepend(divLogo)
+    header.appendChild(list);
     content.appendChild(header);
 
+    //now we append the checkout class to the card class
     function setBackground(color) {
         const content = document.getElementById('content');
         content.classList.add(`${color}-bg`);
@@ -114,6 +150,19 @@ const creatTab = ()=>{
       // Clear the background color when leaving the "Menu" section
     div1.addEventListener('click', clearBack);
     div3.addEventListener('click', clearBack);
+
+    //---------------------logic for add to cart------------------------------------------------------ 
+
+    //chow the cart when the user click on the cart
+    divCart.addEventListener("click", () => {
+        console.log('clicked')
+        card.classList.toggle('activate'); // Toggle the 'activate' class
+    });
+    //hide it when the user click on the close section
+    close.addEventListener('click',()=>{
+        card.classList.remove('activate');//Remove activate class from card
+    })
+
 }
 function addAfter() {
     const pageContent = document.querySelector('.page-content');
@@ -130,4 +179,5 @@ function clearContent(){
         content.removeChild(pageContent);
     }
 }
+
 export default creatTab;
