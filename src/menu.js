@@ -72,6 +72,7 @@ const creatMenuPage=()=>{
     buttons.appendChild(btn)
     buttons.appendChild(btn1);
 
+
     const collection = document.createElement("div");
     collection.classList.add('collection')
     const h2 =document.createElement('h2');
@@ -91,6 +92,7 @@ const creatMenuPage=()=>{
 
     bigImage.appendChild(img);
     let selectedColl = null; // Track the currently selected collection item
+    let addedToCart ;
     
     pruduct.forEach((value, key)=>{
         const coll = document.createElement('div');
@@ -120,7 +122,6 @@ const creatMenuPage=()=>{
 
         const addToCart = document.createElement('div');
         addToCart.classList.add('to-cart');
-        let addedToCart ;
         
         // Check if the product is already in the cart
         const productInCart = shoppingArray.some(item => item.id === value.id);
@@ -137,6 +138,7 @@ const creatMenuPage=()=>{
                 addToCart.innerHTML = `<i class="fa-solid fa-cart-shopping fa-2xl" style="color: #ffffff;"></i>`;
                 addedToCart = true;
                 adding(key);
+                console.log(key)
             } else {
                 addToCart.innerHTML = `<i class="fa-regular fa-cart-shopping fa-2xl" style="color: #ffffff;"></i>`;
                 addedToCart = false;
@@ -190,13 +192,23 @@ const creatMenuPage=()=>{
             cart.innerHTML=''
         })
     
-        collElements.forEach(coll => {
+        collElements.forEach((coll,index) => {
             coll.classList.add('coll-small');
             coll.classList.remove('coll');
 
             const button =document.createElement('button');
             button.classList.add('cart-btn');
             button.textContent="add to cart";
+            button.addEventListener('click',()=>{
+                if(!addedToCart){
+                    addedToCart=true;
+                    adding(index);
+                    console.log
+                }else{
+                    addedToCart=false;
+                    removing(index);
+                }
+            })
             coll.prepend(button);
 
         });
@@ -259,15 +271,30 @@ const creatMenuPage=()=>{
             img.style.width = ''; // Remove inline style
         });
     }
+    let menuBtn;
     
     mediaQuery.addEventListener("change", (event) => {
         if (event.matches) {
             applySmallScreenStyles();
+            menuBtn=true;
         } else {
             removeSmallScreenStyles();
+            menuBtn=false;
         }
     }); 
-    
+    // -------------button to show menu------------
+    btn.addEventListener('click', () => {
+        console.log('clicked');
+        if (menuBtn !== true){
+            applySmallScreenStyles();
+            menuBtn=true;
+        }
+        else{
+            removeSmallScreenStyles();
+            menuBtn=false;
+        }
+    });
+
     function adding(key) {
         console.log("you have added plate n°" + key);
         const productToAdd = pruduct[key];
@@ -369,6 +396,8 @@ const creatMenuPage=()=>{
         // Update the cart quantity in the navbar
         cartQuantityElement.textContent = totalQuantity;
     }
+
+
         // Initialize databooks from localStorage if available
     const storedComand = localStorage.getItem("shopping");
     if (storedComand) {
@@ -378,7 +407,7 @@ const creatMenuPage=()=>{
     // Display the initial data
     updateCartDisplay();
 
-        container.appendChild(buttons);
+    container.appendChild(buttons);
     container.appendChild(left);
     pageContent.appendChild(container)
     pageContent.appendChild(collection)

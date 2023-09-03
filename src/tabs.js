@@ -48,7 +48,7 @@ const creatTab = ()=>{
     card.classList.add('card');
     //creat a heading with an text cart and append it to the big div with class cart
     const h1 = document.createElement('h1');
-    h1.textContent='Card';
+    h1.textContent='My order';
     card.appendChild(h1);
     //creat an ul with a class of listcard and append it to card
     const ul = document.createElement('ul');
@@ -82,14 +82,6 @@ const creatTab = ()=>{
     content.appendChild(header);
 
     //now we append the checkout class to the card class
-    function setBackground(color) {
-        const content = document.getElementById('content');
-        content.classList.add(`${color}-bg`);
-    }
-
-    function setBackground(color) {
-        content.classList.add(`${color}-bg`);
-    }
 
     function clearBack() {
         content.classList.remove('lightseagreen-bg');
@@ -105,7 +97,6 @@ const creatTab = ()=>{
     div2.addEventListener('click', () => {
         clearContent();
         creatMenuPage();
-        setBackground('lightseagreen');
         addAfter(); // Add the ::after pseudo-element
     });
     
@@ -116,22 +107,33 @@ const creatTab = ()=>{
         removeAfter(); // Remove the ::after pseudo-element
     });
 
-    burger.addEventListener("click", ()=>{
-        if(links.classList.contains("active"))
-            links.classList.remove("active");
-        else    
-            links.classList.add("active"); // Toggle the 'active' class on 'Links'
-        
-    });
-    document.addEventListener("click", (event) => {
-        const isBurgerClicked = burger.contains(event.target); // Check if burger was clicked
-        const isActive = links.classList.contains("active"); // Check if Links has 'active' class
-    
-        // If burger wasn't clicked and Links has 'active' class, remove 'active' class
-        if (!isBurgerClicked && isActive && !event.target.classList.contains("active")) {
-            links.classList.remove("active");
+    burger.addEventListener("click", () => {
+        if (links.classList.contains("active")) {
+            // If the 'active' class is present, remove it smoothly
+            links.style.transition = "opacity 0.3s ease-in-out";
+            links.style.opacity = "0"; // Fade out the menu
+            setTimeout(() => {
+                links.classList.remove("active");
+                links.style.transition = ""; // Reset the transition
+            }, 500); // Wait for the fade-out transition to complete (0.3 seconds)
+        } else {
+            // If the 'active' class is not present, add it smoothly
+            links.classList.add("active");
+            setTimeout(() => {
+                links.style.transition = "opacity 0.3s ease-in-out";
+                links.style.opacity = "1"; // Fade in the menu
+            }, 500); // Delay the fade-in to ensure 'active' class is applied first
         }
     });
+    // document.addEventListener("click", (event) => {
+    //     const isBurgerClicked = burger.contains(event.target); // Check if burger was clicked
+    //     const isActive = links.classList.contains("active"); // Check if Links has 'active' class
+    
+    //     // If burger wasn't clicked and Links has 'active' class, remove 'active' class
+    //     if (!isBurgerClicked && isActive && !event.target.classList.contains("active")) {
+    //         links.classList.remove("active");
+    //     }
+    // });
     function removeActiveClass() {
         links.classList.remove("active");
     }
