@@ -41,7 +41,13 @@ const creatMenuPage=()=>{
         name:'chawarma ',
         image:'pizza-07.jpg',
         price:35
-    },]
+    },
+    {
+        id:8,
+        name:' Sicilian Pizza',
+        image:'pizza-08.png',
+        price : 9
+    }]
     let shoppingArray;
     if (localStorage.shopping != null) {
         shoppingArray = JSON.parse(localStorage.shopping);
@@ -94,18 +100,23 @@ const creatMenuPage=()=>{
     let selectedColl = null; // Track the currently selected collection item
     let addedToCart ;
     
-    pruduct.forEach((value, key)=>{
+    pruduct.forEach((value, key) => {
         const coll = document.createElement('div');
         coll.classList.add('coll');
         coll.dataset.index = value.id; // Use item.id instead of i
-        //the spec section inder the image
+    
+        let fav = document.createElement('div');
+        fav.classList.add('favorite');
+        fav.innerHTML = '<i class="fa-light fa-heart fa-2x" style="color: #ff0000;"></i>';
+    
+        // the spec section under the image
         let specs = document.createElement('div');
         specs.classList.add('specs');
-        let name =document.createElement('h3');
-        name.innerHTML=`${value.name}`;
+        let name = document.createElement('h3');
+        name.innerHTML = `${value.name}`;
         let stars = document.createElement('div');
         stars.classList.add('stars');
-
+    
         for (let j = 0; j < 4; j++) {
             let starIcon = document.createElement('i');
             starIcon.classList.add("fa-solid", "fa-star", "fa-2x");
@@ -118,11 +129,11 @@ const creatMenuPage=()=>{
         stars.appendChild(starIcon);
         let price = document.createElement('span');
         price.classList.add('price');
-        price.innerHTML="$"+value.price;
-
+        price.innerHTML = "$" + value.price;
+    
         const addToCart = document.createElement('div');
         addToCart.classList.add('to-cart');
-        
+    
         // Check if the product is already in the cart
         const productInCart = shoppingArray.some(item => item.id === value.id);
         if (productInCart) {
@@ -132,33 +143,39 @@ const creatMenuPage=()=>{
             addToCart.innerHTML = `<i class="fa-regular fa-cart-shopping fa-2xl" style="color: #ffffff;"></i>`;
             addedToCart = false; // Set addedToCart to false
         }
-
+    
         addToCart.addEventListener('click', () => {
             if (!addedToCart) {
                 addToCart.innerHTML = `<i class="fa-solid fa-cart-shopping fa-2xl" style="color: #ffffff;"></i>`;
                 addedToCart = true;
                 adding(key);
-                console.log(key)
+                console.log(key);
             } else {
                 addToCart.innerHTML = `<i class="fa-regular fa-cart-shopping fa-2xl" style="color: #ffffff;"></i>`;
                 addedToCart = false;
                 removing(key);
             }
         });
-        //the image 
+    
+        // the image 
         let img = document.createElement('img');
         let url = `images/pizza-0${value.id}.png`;
         img.src = url;
-
+    
         specs.appendChild(name);
         specs.appendChild(stars);
         specs.appendChild(price);
-        specs.appendChild(addToCart)
-
+        specs.appendChild(addToCart);
+    
         coll.appendChild(specs);
+    
+        // Add the "fav" element here so it's not duplicated
+        coll.appendChild(fav); // This line was missing
+    
         coll.appendChild(img);
+    
         collection.appendChild(coll);
-        
+    
         coll.addEventListener('click', (event) => {
             if (selectedColl !== coll) {
                 const big = document.querySelector('.big-image img');
@@ -171,7 +188,7 @@ const creatMenuPage=()=>{
             // Update the selectedColl variable
             selectedColl = coll;
         });
-    })
+    });
     left.appendChild(bigImage);
 
     const mediaQuery = window.matchMedia("(max-width: 770px)");
@@ -185,12 +202,14 @@ const creatMenuPage=()=>{
 
         collectionElement.classList.add('collection-small');
         collectionElement.classList.remove('collection');
-
-        cartElement.forEach(cart=>{
+        let fav = document.createElement('div');
+        fav.className="favorite";
+        fav.innerHTML='<i class="fa-light fa-heart" style="color: #ff0000;"></i>';
+        cartElement.forEach(cart => {
             cart.classList.add('to-cart-small');
-            cart.classList.remove('to-cart')
-            cart.innerHTML=''
+            cart.classList.remove('to-cart');
         })
+        
     
         collElements.forEach((coll,index) => {
             coll.classList.add('coll-small');
@@ -216,7 +235,6 @@ const creatMenuPage=()=>{
         specsElements.forEach(specs => {
             specs.classList.add('specs-small');
             specs.classList.remove('specs');
-
         });
     
         const priceElements = document.querySelectorAll('.price');
@@ -225,10 +243,6 @@ const creatMenuPage=()=>{
             price.classList.remove('price');
         });
     
-        const imgElements = document.querySelectorAll('.specs img');
-        imgElements.forEach(img => {
-            img.style.width = '90px';
-        });
     }
     
     function removeSmallScreenStyles() {
@@ -256,19 +270,12 @@ const creatMenuPage=()=>{
         specsElements.forEach(specs => {
             specs.classList.remove('specs-small');
             specs.classList.add('specs');
-
         });
     
         const priceElements = document.querySelectorAll('.price-small');
         priceElements.forEach(price => {
             price.classList.remove('price-small');
             price.classList.add('price');
-
-        });
-    
-        const imgElements = document.querySelectorAll('.specs img');
-        imgElements.forEach(img => {
-            img.style.width = ''; // Remove inline style
         });
     }
     let menuBtn;
@@ -282,19 +289,30 @@ const creatMenuPage=()=>{
             menuBtn=false;
         }
     }); 
-    // -------------button to show menu------------
     btn.addEventListener('click', () => {
         console.log('clicked');
-        if (menuBtn !== true){
-            applySmallScreenStyles();
-            menuBtn=true;
-        }
-        else{
+        const collectionElement = document.querySelector('.collection');
+        const collectionElement2 = document.querySelector('.collection-small');
+
+        
+        if (!menuBtn) {
+            // If menuBtn is not true (i.e., menu is not shown), fade it in first.
+            collectionElement.style.transition = "opacity 0.3s ease-in-out";
+            collectionElement.style.opacity = "1"; // Fade in the menu
+            
+            // After a short delay, apply the small screen styles and set menuBtn to true.
+            setTimeout(() => {
+                applySmallScreenStyles();
+                menuBtn = true;
+            }, 300); // Adjust the timing as needed.
+        } else {
+            setTimeout(() => {
+            // If menu is already shown, simply remove the small screen styles.
             removeSmallScreenStyles();
-            menuBtn=false;
+            menuBtn = false;
+            }, 300); // Adjust the timing as needed.
         }
     });
-
     function adding(key) {
         console.log("you have added plate n°" + key);
         const productToAdd = pruduct[key];

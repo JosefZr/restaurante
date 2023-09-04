@@ -39,7 +39,7 @@ const creatTab = ()=>{
     spanCart.textContent='0';
     divCart.innerHTML='<i class="fa-light fa-bag-shopping fa-2x"></i>';
     divCart.appendChild(spanCart);
-    burger.innerHTML=`<i class="fa-solid fa-burger" ></i>`;
+    burger.innerHTML=`<i class="fa-solid fa-burger fa-2x" ></i>`;
     divLogo.innerHTML='<img src="images/pizza-box.png">';
 
       //srat the cart logic
@@ -86,42 +86,68 @@ const creatTab = ()=>{
     function clearBack() {
         content.classList.remove('lightseagreen-bg');
     }
+    const tabs = {
+        home: div1,
+        menu: div2,
+        contact: div3,
+    };
+    
+    let currentTab = null;
+    
+    function setActiveTab(tabName) {
+        // Remove background color from all tab elements
+        div1.style.backgroundColor = '';
+        div2.style.backgroundColor = '';
+        div3.style.backgroundColor = '';
+    
+        // Set the background color for the active tab
+        const tab = tabs[tabName];
+        tab.style.background = '#FFA36C';
+        // background: -webkit-linear-gradient(to right, #240b36, #c31432);  /* Chrome 10-25, Safari 5.1-6 */
+        // background: linear-gradient(to right, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
+        currentTab = tab;
+    }
+    
     div1.addEventListener('click', () => {
         clearContent();
         creaRestaurantPage();
+        setActiveTab('home'); // Set the background color for the "Home" tab in the "Links" section
         clearBack();
-        removeAfter(); // Remove the ::after pseudo-element
+        removeAfter();
     });
     
     div2.addEventListener('click', () => {
         clearContent();
         creatMenuPage();
-        addAfter(); // Add the ::after pseudo-element
+        setActiveTab('menu'); // Set the background color for the "Menu" tab in the "Links" section
+        addAfter();
     });
     
     div3.addEventListener('click', () => {
         clearContent();
         creatContentPage();
+        setActiveTab('contact'); // Set the background color for the "Contact" tab in the "Links" section
         clearBack();
-        removeAfter(); // Remove the ::after pseudo-element
+        removeAfter();
     });
 
     burger.addEventListener("click", () => {
+        const linkActive = document.querySelector('.link .active');
         if (links.classList.contains("active")) {
             // If the 'active' class is present, remove it smoothly
-            links.style.transition = "opacity 0.3s ease-in-out";
-            links.style.opacity = "0"; // Fade out the menu
+            // links.style.transition = "opacity 0.3s ease-in-out";
+            // links.style.opacity = "0"; // Fade out the menu
             setTimeout(() => {
                 links.classList.remove("active");
                 links.style.transition = ""; // Reset the transition
-            }, 500); // Wait for the fade-out transition to complete (0.3 seconds)
+            }, 500); // Wait for the fade-out transition to complete (0.5 seconds)
         } else {
             // If the 'active' class is not present, add it smoothly
             links.classList.add("active");
             setTimeout(() => {
-                links.style.transition = "opacity 0.3s ease-in-out";
-                links.style.opacity = "1"; // Fade in the menu
+                // links.style.transition = "opacity 0.3s ease-in-out";
+                // links.style.opacity = "1"; // Fade in the menu
             }, 500); // Delay the fade-in to ensure 'active' class is applied first
         }
     });
