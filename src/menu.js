@@ -3,43 +3,43 @@ const creatMenuPage=()=>{
     let pruduct = [{
         id:1,
         name:'Margherita Pizza ',
-        image:'pizza-01.jpg',
+        image:'pizza-01.png',
         price:35
     },
     {
         id:2 ,
         name:'Beef Pizza ',
-        image:'pizza-02.jpg',
+        image:'pizza-02.png',
         price:30
     },
     {
         id:3 ,
         name:'Cheeseburger ',
-        image:'pizza-03.jpg',
+        image:'pizza-03.png',
         price:25
     },
     {
         id:4 ,
         name:'Marinara Pizza ',
-        image:'pizza-04.jpg',
+        image:'pizza-04.png',
         price:40
     },
     {
         id:5 ,
         name:'French Frise ',
-        image:'pizza-05.jpg',
+        image:'pizza-05.png',
         price:15
     },
     {
         id:6 ,
         name:'Neapolitan Pizaa ',
-        image:'pizza-06.jpg',
+        image:'pizza-06.png',
         price:22
     },
     {
         id:7 ,
         name:'chawarma ',
-        image:'pizza-07.jpg',
+        image:'pizza-07.png',
         price:35
     },
     {
@@ -49,6 +49,13 @@ const creatMenuPage=()=>{
         price : 9
     }]
     let shoppingArray;
+    let favArray;
+    if(localStorage.favorite !=null){
+        favArray = JSON.parse(localStorage.favorite);
+    }
+    else{
+        favArray=[];
+    }
     if (localStorage.shopping != null) {
         shoppingArray = JSON.parse(localStorage.shopping);
     } else {
@@ -78,7 +85,12 @@ const creatMenuPage=()=>{
     buttons.appendChild(btn)
     buttons.appendChild(btn1);
 
-
+    const buttonFav = document.createElement('div');
+    buttonFav.textContent = 'Favorite ('+favArray.length+')';
+    buttonFav.classList.add('favorite-btn');
+    
+    //buttonFav.innerHTML=`<i class="fa-regular fa-circle-heart fa-2xl" style="color: red;"></i>`;
+    
     const collection = document.createElement("div");
     collection.classList.add('collection')
     const h2 =document.createElement('h2');
@@ -101,12 +113,14 @@ const creatMenuPage=()=>{
     let addedToCart ;
     
     pruduct.forEach((value, key) => {
+        pruduct.addedToCart = false;
         const coll = document.createElement('div');
         coll.classList.add('coll');
         coll.dataset.index = value.id; // Use item.id instead of i
     
         let fav = document.createElement('div');
         fav.classList.add('favorite');
+        fav.textContent="favorits";
         fav.innerHTML = '<i class="fa-light fa-heart fa-2x" style="color: #ff0000;"></i>';
     
         // the spec section under the image
@@ -149,7 +163,6 @@ const creatMenuPage=()=>{
                 addToCart.innerHTML = `<i class="fa-solid fa-cart-shopping fa-2xl" style="color: #ffffff;"></i>`;
                 addedToCart = true;
                 adding(key);
-                console.log(key);
             } else {
                 addToCart.innerHTML = `<i class="fa-regular fa-cart-shopping fa-2xl" style="color: #ffffff;"></i>`;
                 addedToCart = false;
@@ -166,11 +179,11 @@ const creatMenuPage=()=>{
         specs.appendChild(stars);
         specs.appendChild(price);
         specs.appendChild(addToCart);
+        specs.appendChild(fav); // This line was missing
     
         coll.appendChild(specs);
     
         // Add the "fav" element here so it's not duplicated
-        coll.appendChild(fav); // This line was missing
     
         coll.appendChild(img);
     
@@ -178,12 +191,15 @@ const creatMenuPage=()=>{
     
         coll.addEventListener('click', (event) => {
             if (selectedColl !== coll) {
-                const big = document.querySelector('.big-image img');
-                big.style.transform = 'translate(0, -200%)';
-                setTimeout(() => {
-                    big.src = `images/pizza-0${value.id}.png`; // Use item.id
-                    big.style.transform = 'translate(0, 0)';
-                }, 1000);
+                // Check if the view is not small or not in the favorite view
+                if (!menuBtn || menuShown) {
+                    const big = document.querySelector('.big-image img');
+                    big.style.transform = 'translate(0, -200%)';
+                    setTimeout(() => {
+                        big.src = `images/pizza-0${value.id}.png`; // Use item.id
+                        big.style.transform = 'translate(0, 0)';
+                    }, 1000);
+                }
             }
             // Update the selectedColl variable
             selectedColl = coll;
@@ -192,44 +208,40 @@ const creatMenuPage=()=>{
     left.appendChild(bigImage);
 
     const mediaQuery = window.matchMedia("(max-width: 770px)");
-
+    let favAdded;
     function applySmallScreenStyles() {
         const collectionElement = document.querySelector('.collection');
         const collElements = document.querySelectorAll('.coll');
-        const specsElements = document.querySelectorAll('.specs')
+        const specsElements = document.querySelectorAll('.specs');
         const cartElement = document.querySelectorAll('.to-cart');
-
-
+        const favElements = document.querySelectorAll('.favorite'); // Select all elements with the class 'favorite'
+    
         collectionElement.classList.add('collection-small');
         collectionElement.classList.remove('collection');
-        let fav = document.createElement('div');
-        fav.className="favorite";
-        fav.innerHTML='<i class="fa-light fa-heart" style="color: #ff0000;"></i>';
+    
         cartElement.forEach(cart => {
             cart.classList.add('to-cart-small');
             cart.classList.remove('to-cart');
-        })
-        
+        });
     
-        collElements.forEach((coll,index) => {
+        collElements.forEach((coll, index) => {
             coll.classList.add('coll-small');
             coll.classList.remove('coll');
-
-            const button =document.createElement('button');
+    
+            const button = document.createElement('button');
             button.classList.add('cart-btn');
-            button.textContent="add to cart";
-            button.addEventListener('click',()=>{
-                if(!addedToCart){
-                    addedToCart=true;
+            button.textContent = "add to cart";
+            button.addEventListener('click', () => {
+                if (!addedToCart) {
+                    addedToCart = true;
                     adding(index);
-                    console.log
-                }else{
-                    addedToCart=false;
+                    console.log(index); // Log the index of the clicked item
+                } else {
+                    addedToCart = false;
                     removing(index);
                 }
-            })
+            });
             coll.prepend(button);
-
         });
     
         specsElements.forEach(specs => {
@@ -243,8 +255,171 @@ const creatMenuPage=()=>{
             price.classList.remove('price');
         });
     
+        
+        // Loop through the 'favorite' elements and add click event listeners
+        favElements.forEach((favElement, index) => {
+            const productId = pruduct[index].id; // Get the product id
+            
+            // Initialize the favorite icon based on the initial state
+            const productInFav = favArray.includes(productId);
+            favElement.innerHTML = productInFav
+                ? '<i class="fa-solid fa-heart fa-2x" style="color: #ff0000;"></i>'
+                : '<i class="fa-light fa-heart fa-2x" style="color: #ff0000;"></i>';
+            
+            favElement.addEventListener('click', () => {
+                // Recheck the favorite status when the element is clicked
+                const productInFav = favArray.includes(productId);
+                if (!productInFav) {
+                    favElement.innerHTML = '<i class="fa-solid fa-heart fa-2x" style="color: #ff0000;"></i>';
+                    favAdded = true;
+                    addFavorite(index);
+                    
+                } else {
+                    favAdded = false;
+                    favElement.innerHTML = '<i class="fa-light fa-heart fa-2x" style="color: #ff0000;"></i>';
+                    removeFavorite(index);
+                }
+            });
+        });
     }
+    function updateFavoriteDisplay() {
+        const favElements = document.querySelectorAll('.favorite');
+        favElements.forEach((favElement, index) => {
+            const productId = pruduct[index].id;
+            const productInFav = favArray.includes(productId);
     
+            // Update the favorite icon based on whether it's in the favorites array
+            favElement.innerHTML = productInFav
+                ? '<i class="fa-solid fa-heart fa-2x" style="color: #ff0000;"></i>'
+                : '<i class="fa-light fa-heart fa-2x" style="color: #ff0000;"></i>';
+        });
+    }
+
+    function addFavorite(index) {
+        const productId = pruduct[index].id; // Get the product ID
+        if (!favArray.includes(productId)) {
+            favArray.push(productId);
+            localStorage.setItem('favorite', JSON.stringify(favArray));
+            updateFavoriteDisplay();
+            updateFavoriteCount();
+            //first of all we clear the collectionfav and we add what we want 
+            //to not mess it up
+            collectionSmall.innerHTML=""
+            showingFavorite();
+        }
+    }
+    function removeFavorite(index) {
+        const productId = pruduct[index].id; // Get the product ID
+        const favIndex = favArray.indexOf(productId);
+        if (favIndex !== -1) {
+            favArray.splice(favIndex, 1);
+            localStorage.setItem('favorite', JSON.stringify(favArray));
+            updateFavoriteDisplay();
+            updateFavoriteCount();
+            collectionSmall.innerHTML="";
+
+            showingFavorite();
+
+        }
+    }
+    let menuShown = false;
+
+    const collectionSmall = document.createElement('div');
+    collectionSmall.setAttribute("class", "collection-fav");
+
+    function showingFavorite(){
+        collectionSmall.style.display="none";
+        favArray.forEach(favoriteId => {
+            // Find the corresponding product in pruduct array
+            const favoriteProduct = pruduct.find(product => product.id === favoriteId);
+            const coll = document.createElement('div');
+            coll.classList.add('coll-fav'); // Use 'coll-small' class for small screen styles
+            coll.dataset.index = favoriteProduct.id; // Use favorite product's id
+
+            const addToCart = document.createElement('button');
+            addToCart.classList.add('cart-btn');
+            addToCart.textContent = "add to cart";
+            addToCart.addEventListener('click', () => {
+                if (!addedToCart) {
+                    addedToCart = true;
+                    adding(favoriteId);
+                } else {
+                    addedToCart = false;
+                    removing(favoriteId);
+                }
+            });
+            coll.prepend(addToCart);
+            // the spec section under the image
+            const specs = document.createElement('div');
+            specs.classList.add('specs-fav'); // Use 'specs-small' class for small screen styles
+
+            const name = document.createElement('h3');
+            name.innerHTML = favoriteProduct.name;
+
+            const stars = document.createElement('div');
+            stars.classList.add('stars');
+
+            for (let j = 0; j < 4; j++) {
+                const starIcon = document.createElement('i');
+                starIcon.classList.add('fa-solid', 'fa-star', 'fa-2x');
+                starIcon.style.color = '#cad709';
+                stars.appendChild(starIcon);
+            }
+
+            const starIcon = document.createElement('i');
+            starIcon.classList.add('fa-regular', 'fa-star', 'fa-2x');
+            starIcon.style.color = '#cad709';
+            stars.appendChild(starIcon);
+
+            const price = document.createElement('span');
+            price.classList.add('price');
+            price.innerHTML = `$${favoriteProduct.price}`;
+
+            const img = document.createElement('img');
+            img.src = `./images/${favoriteProduct.image}`;
+
+            // Append the elements to the 'coll' div
+            specs.appendChild(name);
+            specs.appendChild(stars);
+            specs.appendChild(price);
+            specs.appendChild(addToCart);
+
+            coll.appendChild(addToCart); // Add addToCart div to the 'coll' div
+            coll.appendChild(specs); // Add specs div to the 'coll' div
+            coll.appendChild(img); // Add img element to the 'coll' div
+
+            collectionSmall.appendChild(coll); // Append the 'coll' div to the 'collectionSmall' div
+            pageContent.appendChild(collectionSmall)
+        });
+    }
+        showingFavorite();
+    buttonFav.addEventListener('click', () => {
+    console.log('clicked');
+    if (!menuShown) {
+        container.style.display = "none";
+        collection.style.display='none';
+        menuShown = true; // Set it to true
+        setTimeout(() => {
+            collectionSmall.style.opacity="1";
+            collectionSmall.style.display="flex";
+        }, 300);
+    }else {
+        setTimeout(() => {
+            collectionSmall.innerHTML="";
+            collectionSmall.style.display="none";
+            collectionSmall.style.opacity="0";
+            setTimeout(() => {
+                container.style.display = "flex";
+                collection.style.display="flex";
+            }, 300);
+        }, 500);
+        menuShown = false; // Set it to false when closing the favorites
+    }
+    });
+    function updateFavoriteCount() {
+        const buttonFav = document.querySelector('.favorite-btn');
+        buttonFav.textContent = 'Favorite (' + favArray.length + ')';
+    }
     function removeSmallScreenStyles() {
         const collectionElement = document.querySelector('.collection-small');
         collectionElement.classList.remove('collection-small');
@@ -279,7 +454,6 @@ const creatMenuPage=()=>{
         });
     }
     let menuBtn;
-    
     mediaQuery.addEventListener("change", (event) => {
         if (event.matches) {
             applySmallScreenStyles();
@@ -294,7 +468,6 @@ const creatMenuPage=()=>{
         const collectionElement = document.querySelector('.collection');
         const collectionElement2 = document.querySelector('.collection-small');
 
-        
         if (!menuBtn) {
             // If menuBtn is not true (i.e., menu is not shown), fade it in first.
             collectionElement.style.transition = "opacity 0.3s ease-in-out";
@@ -310,40 +483,48 @@ const creatMenuPage=()=>{
             // If menu is already shown, simply remove the small screen styles.
             removeSmallScreenStyles();
             menuBtn = false;
+            collectionElement2.style.display="flex"
             }, 300); // Adjust the timing as needed.
         }
     });
     function adding(key) {
         console.log("you have added plate n°" + key);
         const productToAdd = pruduct[key];
-        const cartItem = shoppingArray.find((item) => item.id === productToAdd.id);
-    
-        if (cartItem) {
-            cartItem.quantity++;
-        } else {
-            shoppingArray.push({
-                ...productToAdd,
-                quantity: 1,
-            });
+        if (!productToAdd.addedToCart) {
+            productToAdd.addedToCart = true;
+            const cartItem = shoppingArray.find((item) => item.id === productToAdd.id);
+        
+            if (cartItem) {
+                cartItem.quantity++;
+            } else {
+                shoppingArray.push({
+                    ...productToAdd,
+                    quantity: 1,
+                });
+            }
+        
+            localStorage.setItem("shopping", JSON.stringify(shoppingArray));
+            updateCartDisplay();
         }
-    
-        localStorage.setItem("shopping", JSON.stringify(shoppingArray));
-        updateCartDisplay();
     }
     function removing(key) {
         console.log("you have removed plate n°" + key);
-        const productToRemove = shoppingArray.find((item) => item.id === pruduct[key].id);
-        if (productToRemove) {
-            if (productToRemove.quantity > 1) {
-                productToRemove.quantity--;
-            } else {
-                // If quantity is 1 or less, remove the product entirely
-                const index = shoppingArray.indexOf(productToRemove);
-                shoppingArray.splice(index, 1);
+        const productToRemove = pruduct[key];
+        if (productToRemove.addedToCart) {
+            productToRemove.addedToCart = false;
+            const cartItem = shoppingArray.find((item) => item.id === productToRemove.id);
+            if (cartItem) {
+                if (cartItem.quantity > 1) {
+                    cartItem.quantity--;
+                } else {
+                    // If quantity is 1 or less, remove the product entirely
+                    const index = shoppingArray.indexOf(cartItem);
+                    shoppingArray.splice(index, 1);
+                }
+                // Update the local storage after the delete from the array
+                localStorage.setItem("shopping", JSON.stringify(shoppingArray));
+                updateCartDisplay();
             }
-            // Update the local storage after the delete from the array
-            localStorage.setItem("shopping", JSON.stringify(shoppingArray));
-            updateCartDisplay();
         }
     }
     
@@ -424,13 +605,13 @@ const creatMenuPage=()=>{
 
     // Display the initial data
     updateCartDisplay();
-
     container.appendChild(buttons);
     container.appendChild(left);
     pageContent.appendChild(container)
     pageContent.appendChild(collection)
-    content.appendChild(pageContent);
+    pageContent.appendChild(buttonFav);
 
+    content.appendChild(pageContent);
 }
 // create function that will add event listener on all images in the collection divs
 export default creatMenuPage;
