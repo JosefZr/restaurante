@@ -1,5 +1,9 @@
 :root{
     --transition: all .4s ease-in-out;
+    /* for the wrapper */
+    --link-size: 60px;
+    --trans-props: 0.3s ease;
+    /* end wrapper needs */
 }
 *{
     padding: 0;
@@ -307,7 +311,7 @@ input[type="submit"]:hover{
         flex-direction: column !important;
     }
     .contact-form .left-contact {
-        width: 100% !important;
+        width: 95% !important;
     }
 }
 @media (max-width:500px){
@@ -322,12 +326,191 @@ input[type="submit"]:hover{
         font-size: 3rem;
     }
 }
+@media(max-width:260px){
+    .right img{
+        width: 200px;
+    }
+}
 footer{
     margin-top: 50px;
-    height: 20vh;
-    background-color: #c3bfc0;
-
 }
+footer .container-footer{
+    background-color: #b31217;
+    border-radius: 0 70px 70px 70px;
+    max-width: 1400px;
+    height: 525px !important;
+    margin: 100px auto 0;
+    position: relative;
+    width: 80%;
+}
+.personne{
+    background-color: white;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.personne i{
+    margin: 13px 0;
+}
+footer .container-footer .information{
+    background: white;
+    width: 100%;
+    text-align: left;
+    padding: 0 0 40px 30px;
+    position: absolute;
+    margin: 100px 0 0 100px;
+    border-radius: 0 0 70px 0;
+}
+.information ul li{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+    padding: 0 0 20px 0;
+}
+.information ul li span:nth-child(2){
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.information ul li p{
+    color: black;
+}
+@media(max-width:1000px){
+    footer .container-footer .information {
+        width: 100% !important;
+        margin: 100px 0 0 50px;
+    }
+}
+@media(max-width:530px){
+    footer .container-footer .information {
+        width: 100% !important;
+        margin: 100px 0 0 50px;
+    }
+    .information ul li span:nth-child(2) {
+        font-size: 1rem;
+    }
+    footer .container-footer .information {
+        width: 87% !important;
+    }
+}
+@media(max-width:420px){
+    footer .container-footer .information {
+        margin: 55px 0 0 0px;
+        width: 100% !important;
+        border-radius: 0;
+        text-align: center;
+        padding: 0 10px 0 10px;
+    }
+    .personne {
+        left: 50%;
+    }
+    footer .container-footer {
+        width: 100%;
+        border-radius: 0 ;
+    }
+    .information ul li {
+        gap: 10px;
+    }
+}
+@media(max-width:265px){
+    .information ul li {
+        flex-direction: column;
+        gap: 5px;
+    }
+    footer .container-footer {
+        height: 600px !important;
+    }
+    .information h1{
+        font-size: 1.5rem;
+    }
+}
+.wrapper {
+    width: 100%;
+  }
+  
+  .social-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: row wrap;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transform: translate(0, -25%);
+  }
+  
+  /*** Containers and icons ***/
+  .social-icon {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    width: var(--link-size);
+    height: var(--link-size);
+    margin: 0 10px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12);
+    text-decoration: none;
+    transition: var(--trans-props);
+  }
+  .social-icon i {
+    margin: auto;
+    font-size: 24px;
+    color: hsl(212, 16%, 48%);
+    z-index: 1;
+    transition: var(--trans-props);
+  }
+  
+  /*** Branded overlays from the bottom ***/
+  
+  .social-icon:after {
+    content: "";
+    width: var(--link-size);
+    height: var(--link-size);
+    position: absolute;
+    transform: translate(0, var(--link-size));
+    border-radius: 50%;
+    transition: var(--trans-props);
+  }
+    .social-icon.facebook:after{
+    background-color: #1877f2; /* Add background color on hover to Facebook blue */
+    }
+  .social-icon.twitter:after {
+    background-color: #1da1f2;
+  }
+  
+  .social-icon.whatsapp:after {
+    background-color: #25d366;
+  }
+  
+  .social-icon.instagram:after {
+    background-image: linear-gradient(
+      to bottom left,
+      #4f5bd5,
+      #962fbf,
+      #d62976,
+      #fa7e1e,
+      #feda75
+    );
+  }
+  
+  /*** Animations ***/
+  
+  .social-icon:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.16);
+  }
+  
+  .social-icon:hover i {
+    color: #fff;
+  }
+  
+  .social-icon:hover:after {
+    transform: translate(0) scale(1.2);
+  }
 /* end contact form */
 /* start landing page */
 .background-image {
