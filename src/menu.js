@@ -110,7 +110,7 @@ const creatMenuPage=()=>{
 
     bigImage.appendChild(img);
     let selectedColl = null; // Track the currently selected collection item
-    let addedToCart ;
+    let addedToCart;
     
     pruduct.forEach((value, key) => {
         pruduct.addedToCart = false;
@@ -206,6 +206,8 @@ const creatMenuPage=()=>{
         });
     });
     left.appendChild(bigImage);
+    const collectionSmall = document.createElement('div');
+    collectionSmall.setAttribute("class", "collection-fav");
 
     const mediaQuery = window.matchMedia("(max-width: 770px)");
     let favAdded;
@@ -317,18 +319,15 @@ const creatMenuPage=()=>{
             updateFavoriteDisplay();
             updateFavoriteCount();
             collectionSmall.innerHTML="";
-
             showingFavorite();
-
         }
     }
     let menuShown = false;
 
-    const collectionSmall = document.createElement('div');
-    collectionSmall.setAttribute("class", "collection-fav");
 
     function showingFavorite(){
         collectionSmall.style.display="none";
+        
         favArray.forEach(favoriteId => {
             // Find the corresponding product in pruduct array
             const favoriteProduct = pruduct.find(product => product.id === favoriteId);
@@ -389,12 +388,12 @@ const creatMenuPage=()=>{
             coll.appendChild(img); // Add img element to the 'coll' div
 
             collectionSmall.appendChild(coll); // Append the 'coll' div to the 'collectionSmall' div
-            pageContent.appendChild(collectionSmall)
         });
+        pageContent.appendChild(collectionSmall)
+
     }
-        showingFavorite();
+    showingFavorite();
     buttonFav.addEventListener('click', () => {
-    console.log('clicked');
     if (!menuShown) {
         container.style.display = "none";
         collection.style.display='none';
@@ -406,6 +405,7 @@ const creatMenuPage=()=>{
     }else {
         setTimeout(() => {
             collectionSmall.innerHTML="";
+            showingFavorite();
             collectionSmall.style.display="none";
             collectionSmall.style.opacity="0";
             setTimeout(() => {
@@ -464,7 +464,9 @@ const creatMenuPage=()=>{
         }
     }); 
     btn.addEventListener('click', () => {
-        console.log('clicked');
+        console.log('clicked menu');
+        collectionSmall.innerHTML=""
+        showingFavorite()
         const collectionElement = document.querySelector('.collection');
         const collectionElement2 = document.querySelector('.collection-small');
 
