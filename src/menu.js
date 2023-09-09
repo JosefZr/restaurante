@@ -4,49 +4,57 @@ const creatMenuPage=()=>{
         id:1,
         name:'Margherita Pizza ',
         image:'pizza-01.png',
-        price:35
+        price:35,
+        addedToCart: false, // Initialize as false
     },
     {
         id:2 ,
         name:'Beef Pizza ',
         image:'pizza-02.png',
-        price:30
+        price:30,
+        addedToCart: false, // Initialize as false
     },
     {
         id:3 ,
         name:'Cheeseburger ',
         image:'pizza-03.png',
-        price:25
+        price:25,
+        addedToCart: false, // Initialize as false
     },
     {
         id:4 ,
         name:'Marinara Pizza ',
         image:'pizza-04.png',
-        price:40
+        price:40,
+        addedToCart: false, // Initialize as false
     },
     {
         id:5 ,
         name:'French Frise ',
         image:'pizza-05.png',
-        price:15
+        price:15,
+        addedToCart: false, // Initialize as false
     },
     {
         id:6 ,
         name:'Neapolitan Pizaa ',
         image:'pizza-06.png',
-        price:22
+        price:22,
+        addedToCart: false, // Initialize as false
     },
     {
         id:7 ,
         name:'chawarma ',
         image:'pizza-07.png',
-        price:35
+        price:35,
+        addedToCart: false, // Initialize as false
     },
     {
         id:8,
         name:' Sicilian Pizza',
         image:'pizza-08.png',
-        price : 9
+        price : 9,
+        addedToCart: false, // Initialize as false
     }]
     let shoppingArray;
     let favArray;
@@ -56,11 +64,38 @@ const creatMenuPage=()=>{
     else{
         favArray=[];
     }
+    
     if (localStorage.shopping != null) {
         shoppingArray = JSON.parse(localStorage.shopping);
     } else {
         shoppingArray = [];
     }
+//     // Function to handle adding a product to the cart
+// function addToCart(productId) {
+//     const product = pruduct.find((item) => item.id === productId);
+
+//     if (product) {
+//         if (!product.addedToCart) {
+//             product.addedToCart = true; // Set addedToCart to true
+//             // Update the local storage
+//             const shoppingArray = JSON.parse(localStorage.getItem('shopping')) || [];
+//             shoppingArray.push(product);
+//             localStorage.setItem('shopping', JSON.stringify(shoppingArray));
+//         } else {
+//             product.addedToCart = false; // Set addedToCart to false
+//             // Remove the product from the cart in local storage
+//             const shoppingArray = JSON.parse(localStorage.getItem('shopping')) || [];
+//             const indexToRemove = shoppingArray.findIndex((item) => item.id === productId);
+//             if (indexToRemove !== -1) {
+//                 shoppingArray.splice(indexToRemove, 1);
+//                 localStorage.setItem('shopping', JSON.stringify(shoppingArray));
+//             }
+//         }
+//     }
+
+//     // Update the cart display
+//     updateCartDisplay();
+// }
     const content = document.querySelector('#content');
 
     const pageContent = document.createElement("div");
@@ -110,8 +145,7 @@ const creatMenuPage=()=>{
 
     bigImage.appendChild(img);
     let selectedColl = null; // Track the currently selected collection item
-    let addedToCart;
-    
+   
     pruduct.forEach((value, key) => {
         pruduct.addedToCart = false;
         const coll = document.createElement('div');
@@ -152,20 +186,20 @@ const creatMenuPage=()=>{
         const productInCart = shoppingArray.some(item => item.id === value.id);
         if (productInCart) {
             addToCart.innerHTML = `<i class="fa-solid fa-cart-shopping fa-2xl" style="color: #ffffff;"></i>`;
-            addedToCart = true; // Set addedToCart to true
+            pruduct[key].addedToCart = true; // Set addedToCart to true
         } else {
             addToCart.innerHTML = `<i class="fa-regular fa-cart-shopping fa-2xl" style="color: #ffffff;"></i>`;
-            addedToCart = false; // Set addedToCart to false
+            pruduct[key].addedToCart = false; // Set addedToCart to false
         }
     
         addToCart.addEventListener('click', () => {
-            if (!addedToCart) {
+            if (!pruduct[key].addedToCart) {
                 addToCart.innerHTML = `<i class="fa-solid fa-cart-shopping fa-2xl" style="color: #ffffff;"></i>`;
-                addedToCart = true;
+                pruduct[key].addedToCart = true;
                 adding(key);
             } else {
                 addToCart.innerHTML = `<i class="fa-regular fa-cart-shopping fa-2xl" style="color: #ffffff;"></i>`;
-                addedToCart = false;
+                pruduct[key].addedToCart = false;
                 removing(key);
             }
         });
@@ -234,12 +268,12 @@ const creatMenuPage=()=>{
             button.classList.add('cart-btn');
             button.textContent = "add to cart";
             button.addEventListener('click', () => {
-                if (!addedToCart) {
-                    addedToCart = true;
+                if (!pruduct[index].addedToCart) {
+                    pruduct[index].addedToCart = true;
                     adding(index);
                     console.log(index); // Log the index of the clicked item
                 } else {
-                    addedToCart = false;
+                    pruduct[index].addedToCart = false;
                     removing(index);
                 }
             });
@@ -492,44 +526,70 @@ const creatMenuPage=()=>{
     function adding(key) {
         console.log("you have added plate n°" + key);
         const productToAdd = pruduct[key];
-        if (!productToAdd.addedToCart) {
-            productToAdd.addedToCart = true;
-            const cartItem = shoppingArray.find((item) => item.id === productToAdd.id);
-        
-            if (cartItem) {
-                cartItem.quantity++;
+    
+        // Check if the product is already in the cart
+        const cartItem = shoppingArray.find((item) => item.id === productToAdd.id);
+    
+        if (cartItem) {
+            cartItem.quantity++;
+        } else {
+            shoppingArray.push({
+                ...productToAdd,
+                quantity: 1,
+            });
+        }
+    
+        // Update the addedToCart property of the product
+        productToAdd.addedToCart = true;
+    
+        localStorage.setItem("shopping", JSON.stringify(shoppingArray));
+        updateCartDisplay();
+    }
+    
+    function removing(key) {
+        console.log("you have removed plate n°" + key);
+        const productToRemove = pruduct[key];
+    
+        // Check if the product is in the cart
+        const cartItem = shoppingArray.find((item) => item.id === productToRemove.id);
+    
+        if (cartItem) {
+            if (cartItem.quantity > 1) {
+                cartItem.quantity--;
             } else {
-                shoppingArray.push({
-                    ...productToAdd,
-                    quantity: 1,
-                });
+                // If quantity is 1 or less, remove the product entirely
+                const index = shoppingArray.indexOf(cartItem);
+                shoppingArray.splice(index, 1);
             }
-        
+    
+            // Update the addedToCart property of the product
+            productToRemove.addedToCart = false;
+    
+            // Update the local storage after the delete from the array
             localStorage.setItem("shopping", JSON.stringify(shoppingArray));
             updateCartDisplay();
         }
     }
-    function removing(key) {
-        console.log("you have removed plate n°" + key);
-        const productToRemove = pruduct[key];
-        if (productToRemove.addedToCart) {
-            productToRemove.addedToCart = false;
-            const cartItem = shoppingArray.find((item) => item.id === productToRemove.id);
-            if (cartItem) {
-                if (cartItem.quantity > 1) {
-                    cartItem.quantity--;
-                } else {
-                    // If quantity is 1 or less, remove the product entirely
-                    const index = shoppingArray.indexOf(cartItem);
-                    shoppingArray.splice(index, 1);
-                }
-                // Update the local storage after the delete from the array
-                localStorage.setItem("shopping", JSON.stringify(shoppingArray));
-                updateCartDisplay();
-            }
-        }
-    }
+
+function removing(key) {
+    console.log("you have removed plate n°" + key);
+    const productToRemove = pruduct[key];
     
+    const cartItem = shoppingArray.find((item) => item.id === productToRemove.id);
+    
+    if (cartItem) {
+        if (cartItem.quantity > 1) {
+            cartItem.quantity--;
+        } else {
+            // If quantity is 1 or less, remove the product entirely
+            const index = shoppingArray.indexOf(cartItem);
+            shoppingArray.splice(index, 1);
+        }
+        
+        localStorage.setItem("shopping", JSON.stringify(shoppingArray));
+        updateCartDisplay();
+    }
+}
     function updateCartDisplay() {
         const cartItemsElement = document.querySelector('.listCard');
         const cartTotalElement = document.querySelector('.totale');

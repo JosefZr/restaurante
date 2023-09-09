@@ -987,7 +987,7 @@ footer .container-footer .information{
     cursor: pointer;
 }
 @media (max-width:600px){
-    .coll-small{
+    .coll-fav{
         width: 100%;
     }
 }
