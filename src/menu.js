@@ -70,32 +70,6 @@ const creatMenuPage=()=>{
     } else {
         shoppingArray = [];
     }
-//     // Function to handle adding a product to the cart
-// function addToCart(productId) {
-//     const product = pruduct.find((item) => item.id === productId);
-
-//     if (product) {
-//         if (!product.addedToCart) {
-//             product.addedToCart = true; // Set addedToCart to true
-//             // Update the local storage
-//             const shoppingArray = JSON.parse(localStorage.getItem('shopping')) || [];
-//             shoppingArray.push(product);
-//             localStorage.setItem('shopping', JSON.stringify(shoppingArray));
-//         } else {
-//             product.addedToCart = false; // Set addedToCart to false
-//             // Remove the product from the cart in local storage
-//             const shoppingArray = JSON.parse(localStorage.getItem('shopping')) || [];
-//             const indexToRemove = shoppingArray.findIndex((item) => item.id === productId);
-//             if (indexToRemove !== -1) {
-//                 shoppingArray.splice(indexToRemove, 1);
-//                 localStorage.setItem('shopping', JSON.stringify(shoppingArray));
-//             }
-//         }
-//     }
-
-//     // Update the cart display
-//     updateCartDisplay();
-// }
     const content = document.querySelector('#content');
 
     const pageContent = document.createElement("div");
@@ -514,6 +488,7 @@ const creatMenuPage=()=>{
                 applySmallScreenStyles();
                 menuBtn = true;
             }, 300); // Adjust the timing as needed.
+            s
         } else {
             setTimeout(() => {
             // If menu is already shown, simply remove the small screen styles.
