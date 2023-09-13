@@ -59,7 +59,7 @@ const creatContentPage=()=>{
     const footer = document.createElement('footer');
     const container = document.createElement('div');
     container.classList.add('container-footer');
-    
+    container.classList.add('reveal');
     const personne = document.createElement('div');
     personne.classList.add('personne') ;
     personne.innerHTML='<i class="fa-solid fa-user-headset fa-4x" style="color: #ff0000;"></i>';
@@ -131,6 +131,22 @@ const creatContentPage=()=>{
     form.appendChild(left);
     form.appendChild(right)
 
+    window.addEventListener('scroll', reveal);
+    function reveal() {
+      var reveals = document.querySelectorAll('.reveal'); // Corrected variable name
+    
+      for (var i = 0; i < reveals.length; i++) {
+        var windowheight = window.innerHeight;
+        var revealtop = reveals[i].getBoundingClientRect().top; // Corrected method name
+        var revealpoint = 150;
+    
+        if (revealtop < windowheight - revealpoint) {
+          reveals[i].classList.add('activation');
+        } else {
+          reveals[i].classList.remove('activation');
+        }
+      }
+    }
     pageContent.appendChild(header);
     pageContent.appendChild(form);
     pageContent.appendChild(footer);

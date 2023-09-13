@@ -280,13 +280,13 @@ const creatMenuPage=()=>{
                 // Recheck the favorite status when the element is clicked
                 const productInFav = favArray.includes(productId);
                 if (!productInFav) {
-                    favElement.innerHTML = '<i class="fa-solid fa-heart fa-2x" style="color: #ff0000;"></i>';
+                    favElement.innerHTML = `<i class="fa-solid fa-heart fa-2x" style="color: #ff0000;"></i>`;
                     favAdded = true;
                     addFavorite(index);
                     
                 } else {
                     favAdded = false;
-                    favElement.innerHTML = '<i class="fa-light fa-heart fa-2x" style="color: #ff0000;"></i>';
+                    favElement.innerHTML = `<i class="fa-light fa-heart fa-2x" style="color: #ff0000;"></i>`;
                     removeFavorite(index);
                 }
             });

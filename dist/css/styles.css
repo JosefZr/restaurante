@@ -331,7 +331,7 @@ input[type="submit"]:hover{
     }
 }
 footer{
-    margin-top: 50px;
+    margin: 50px 0;
 }
 footer .container-footer{
     background-color: #b31217;
