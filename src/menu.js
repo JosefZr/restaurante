@@ -1,58 +1,68 @@
 //menu.js
+import pizaa1 from "./assets/pizza-01.png";
+import pizaa2 from "./assets/pizza-02.png";
+import pizaa3 from "./assets/pizza-03.png";
+import pizaa4 from "./assets/pizza-04.png";
+import pizaa5 from "./assets/pizza-05.png";
+import pizaa6 from "./assets/pizza-06.png";
+import pizaa7 from "./assets/pizza-07.png";
+import pizaa8 from "./assets/pizza-08.png";
+
+
 const creatMenuPage=()=>{
     let pruduct = [{
         id:1,
         name:'Margherita Pizza ',
-        image:'pizza-01.png',
+        image:'pizaa1',
         price:35,
         addedToCart: false, // Initialize as false
     },
     {
         id:2 ,
         name:'Beef Pizza ',
-        image:'pizza-02.png',
+        image:'pizaa2',
         price:30,
         addedToCart: false, // Initialize as false
     },
     {
         id:3 ,
         name:'Cheeseburger ',
-        image:'pizza-03.png',
+        image:'pizaa3',
         price:25,
         addedToCart: false, // Initialize as false
     },
     {
         id:4 ,
         name:'Marinara Pizza ',
-        image:'pizza-04.png',
+        image:'pizaa4',
         price:40,
         addedToCart: false, // Initialize as false
     },
     {
         id:5 ,
         name:'French Frise ',
-        image:'pizza-05.png',
+        image:'pizaa5',
         price:15,
         addedToCart: false, // Initialize as false
     },
     {
         id:6 ,
         name:'Neapolitan Pizaa ',
-        image:'pizza-06.png',
+        image:'pizaa6',
         price:22,
         addedToCart: false, // Initialize as false
     },
     {
         id:7 ,
         name:'chawarma ',
-        image:'pizza-07.png',
+        image:'pizaa7',
         price:35,
         addedToCart: false, // Initialize as false
     },
     {
         id:8,
         name:' Sicilian Pizza',
-        image:'pizza-08.png',
+        image:'pizaa8',
         price : 9,
         addedToCart: false, // Initialize as false
     }]
@@ -70,6 +80,31 @@ const creatMenuPage=()=>{
     } else {
         shoppingArray = [];
     }
+
+    function getProductImageById(id) {
+        switch (id) {
+            case 1:
+                return pizaa1;
+            case 2:
+                return pizaa2;
+            case 3:
+                return pizaa3;
+            case 4:
+                return pizaa4;
+            case 5:
+                return pizaa5;
+            case 6:
+                return pizaa6;
+            case 7:
+                return pizaa7;
+            case 8:
+                return pizaa8;
+            default:
+                return pizaa1; // Default to pizaa1 if the ID is not recognized
+        }
+    }
+
+
     const content = document.querySelector('#content');
 
     const pageContent = document.createElement("div");
@@ -114,12 +149,11 @@ const creatMenuPage=()=>{
     bigImage.classList.add('big-image');
     //create a new image element and give it an src attribute 
     let img=document.createElement('img');
-    let url="images/pizza-03.png";
+    let url=`${pizaa3}`;
     img.src=`${url}`;
 
     bigImage.appendChild(img);
     let selectedColl = null; // Track the currently selected collection item
-   
     pruduct.forEach((value, key) => {
         pruduct.addedToCart = false;
         const coll = document.createElement('div');
@@ -180,9 +214,9 @@ const creatMenuPage=()=>{
     
         // the image 
         let img = document.createElement('img');
-        let url = `images/pizza-0${value.id}.png`;
+        let url = `${getProductImageById(value.id)}`;
         img.src = url;
-    
+
         specs.appendChild(name);
         specs.appendChild(stars);
         specs.appendChild(price);
@@ -203,8 +237,11 @@ const creatMenuPage=()=>{
                 if (!menuBtn || menuShown) {
                     const big = document.querySelector('.big-image img');
                     big.style.transform = 'translate(0, -200%)';
+                    
                     setTimeout(() => {
-                        big.src = `images/pizza-0${value.id}.png`; // Use item.id
+                        const clickedItem = pruduct.find(item => item.id === parseInt(coll.dataset.index));
+                        const imageId = clickedItem.id;
+                        big.src = getProductImageById(imageId);
                         big.style.transform = 'translate(0, 0)';
                     }, 1000);
                 }
@@ -216,7 +253,6 @@ const creatMenuPage=()=>{
     left.appendChild(bigImage);
     const collectionSmall = document.createElement('div');
     collectionSmall.setAttribute("class", "collection-fav");
-
     const mediaQuery = window.matchMedia("(max-width: 770px)");
     let favAdded;
     function applySmallScreenStyles() {
@@ -380,10 +416,10 @@ const creatMenuPage=()=>{
 
             const price = document.createElement('span');
             price.classList.add('price');
-            price.innerHTML = `$${favoriteProduct.price}`;
+            price.innerHTML = `${favoriteProduct.price} $`;
 
             const img = document.createElement('img');
-            img.src = `./images/${favoriteProduct.image}`;
+            img.src = `${getProductImageById(favoriteProduct)}`;
 
             // Append the elements to the 'coll' div
             specs.appendChild(name);
@@ -583,7 +619,7 @@ function removing(key) {
             cartItemElement.classList.add('cart-item'); // Add a class for styling
     
             cartItemElement.innerHTML = `
-                <div><img src="images/pizza-0${item.id}.png" alt="${item.name}"></div>
+                <div><img src="${getProductImageById(item.id)}" alt="${item.name}"></div>
                 <div> ${item.name}</div>
                 <div>${item.quantity}</div>
                 <div>$${(item.price * item.quantity).toFixed(2)}</div>

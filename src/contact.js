@@ -1,11 +1,13 @@
-
+import backImg from './assets/6.jpg';
+import place from './assets/place.jpg.png';
 // module for creating the content page 
 const creatContentPage=()=>{
     const content = document.getElementById('content');
     const pageContent=document.createElement('div');
     pageContent.classList.add('page-content');
-    pageContent.style.cssText="background-image: url(./images/6.jpg);background-size: cover;background-attachment: fixed;background-position: center;position: absolute;top: 0;width: 100%;min-height: 145vh;"
-    
+    pageContent.style.cssText="background-size: cover;background-attachment: fixed;background-position: center;position: absolute;top: 0;width: 100%;min-height: 145vh;"
+    pageContent.style.backgroundImage = `url(${backImg})`;
+
     const header = document.createElement('div');
     header.classList.add('header');
     const h1 = document.createElement('h1');
@@ -21,11 +23,14 @@ const creatContentPage=()=>{
 
     const left=document.createElement('form');
     left.classList.add('left-contact');
+    left.classList.add('reveal');
     left.action="https://formspree.io/f/mvojryjr";
     left.method="POST"
     const right =document.createElement("div");
     right.classList.add('right');
-    right.innerHTML='<img src="images/place.jpg.png"></img>';
+    right.classList.add('reveal');
+    right.innerHTML = `<img src="${place}"></img>`;
+
 
     const headingInput = document.createElement('input');
     headingInput.type='text';

@@ -1,3 +1,16 @@
+import jpg1 from './assets/1.jpg';
+import jpg2 from './assets/2.jpg';
+import jpg3 from './assets/3.jpg';
+
+import chef1 from './assets/chef-1.jpg';
+import chef2 from './assets/chef-2.jpg';
+import chef3 from './assets/chef-3.jpg'; 
+
+import face1 from './assets/face-1.jpg';
+import face2 from './assets/face-2.jpg';
+import face3 from './assets/face-3.jpg';
+import face5 from './assets/face-5.jpg';
+
 
 // restaurant.js
 let backgroundoption = true; // Define the background option
@@ -18,12 +31,10 @@ const creaRestaurantPage = () => {
     twoSide.appendChild(text);
     twoSide.appendChild(image);
     pageContent.appendChild(twoSide);
-    image.style.backgroundImage = `url("images/1.jpg")`;
-
-
+    image.style.backgroundImage = `url(${jpg1})`;
     // Switch background option
 
-    let imagesArray = ["images/1.jpg", "images/2.jpg", "images/3.jpg"];
+    let imagesArray = [jpg1, jpg2, jpg3]; // Use the imported variable
     let textArray = ["the real taste of naples","the true italian test","authustic tuscany flafor"];
     let backgroundInterval;
 
@@ -44,11 +55,11 @@ const creaRestaurantPage = () => {
     aboutSection.setAttribute('class', 'about-section ');
     // aboutSection.classList.add('reveal');
     aboutSection.innerHTML= `
-    <h2>OUR SPECIAL<span> CHEF's</span></h2>
+    <h2 class='reveal'>OUR SPECIAL<span> CHEF's</span></h2>
     <div class="chef-details">
         <div class='chef-image reveal'>
             <div class="image-1">
-                <img src ="images/chef-1.jpg">
+                <img src ="${chef1}">
                 <div class="text-content-1">
                     <div class="effect">
                         <span>thomas cilber</span>
@@ -60,7 +71,7 @@ const creaRestaurantPage = () => {
         </div>
         <div class='chef-image chef-image-2 reveal'>
             <div class="image-1">
-                <img src ="images/chef-2.jpg">
+                <img src ="${chef2}">
                 <div class="text-content-1">
                     <div class="effect">
                         <span>karen madison</span>
@@ -72,7 +83,7 @@ const creaRestaurantPage = () => {
         </div>
         <div class='chef-image chef-image-3 reveal'>
             <div class="image-1">
-                <img src ="images/chef-3.jpg">
+                <img src ="${chef3}">
                 <div class="text-content-1">
                     <div class="effect">
                         <span>Ben cutting</span>
@@ -91,7 +102,7 @@ const creaRestaurantPage = () => {
     facility.classList.add("facilities");
     // facility.classList.add('reveal');
     facility.innerHTML=`
-    <h2 class="heading">WHY <span> SICILIA FOOD</span></h2>
+    <h2 class="heading reveal">WHY <span> SICILIA FOOD</span></h2>
     <div class="icon-section">
         <div class="icon-text reveal">
             <i class="fa-solid fa-memo-circle-check fa-5x" style="color: #b31217;"></i>
@@ -133,28 +144,28 @@ const creaRestaurantPage = () => {
 
     const reviewItems = [
         {
-            imageSrc: 'images/face-1.jpg',
+            imageSrc: `${face1}`,
             name: 'loura .R',
             text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati esse eveniet, ipsa blanditiis velit praesentium.',
             occupation: 'Student',
             stars: 4,
         },
         {
-            imageSrc: 'images/face-2.jpg',
+            imageSrc: `${face2}`,
             name: 'joesef .inderson',
             text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati esse eveniet, ipsa blanditiis velit praesentium.',
             occupation: 'Teacher',
             stars: 5,
         },
         {
-            imageSrc: 'images/face-3.jpg',
+            imageSrc: `${face3}`,
             name: 'jones .bale',
             text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati esse eveniet, ipsa blanditiis velit praesentium.',
             occupation: 'Worker',
             stars: 4,
         },
         {
-            imageSrc: 'images/face-5.jpg',
+            imageSrc: `${face5}`,
             name: 'jack smith',
             text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati esse eveniet, ipsa blanditiis velit praesentium.',
             occupation: 'Barber',
@@ -256,7 +267,7 @@ prev.addEventListener('click', () => {
 window.addEventListener('scroll', reveal);
 function reveal() {
   var reveals = document.querySelectorAll('.reveal'); // Corrected variable name
-
+    
   for (var i = 0; i < reveals.length; i++) {
     var windowheight = window.innerHeight;
     var revealtop = reveals[i].getBoundingClientRect().top; // Corrected method name

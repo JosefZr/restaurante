@@ -1,6 +1,8 @@
 import creatContentPage from "./contact";
 import creatMenuPage from "./menu";
 import creaRestaurantPage from "./restaurant";
+import logoImg from './assets/pizza-box.png';
+import icon from './assets/fast-food.png';
 //tabs.js
 const creatTab = ()=>{
     const content = document.getElementById('content');
@@ -40,9 +42,11 @@ const creatTab = ()=>{
     divCart.innerHTML='<i class="fa-light fa-bag-shopping fa-2x"></i>';
     divCart.appendChild(spanCart);
     burger.innerHTML=`<i class="fa-solid fa-burger fa-2x" ></i>`;
-    divLogo.innerHTML='<img src="images/pizza-box.png">';
-
-      //srat the cart logic
+    // divLogo.innerHTML='<img src="logo">';
+    const logo = document.createElement('img');
+    logo.src=logoImg;
+    divLogo.appendChild(logo);
+      //srat the cart logics
     //crreat a div with class card
     const card = document.createElement('div');
     card.classList.add('card');
@@ -151,15 +155,6 @@ const creatTab = ()=>{
             }, 500); // Delay the fade-in to ensure 'active' class is applied first
         }
     });
-    // document.addEventListener("click", (event) => {
-    //     const isBurgerClicked = burger.contains(event.target); // Check if burger was clicked
-    //     const isActive = links.classList.contains("active"); // Check if Links has 'active' class
-    
-    //     // If burger wasn't clicked and Links has 'active' class, remove 'active' class
-    //     if (!isBurgerClicked && isActive && !event.target.classList.contains("active")) {
-    //         links.classList.remove("active");
-    //     }
-    // });
     function removeActiveClass() {
         links.classList.remove("active");
     }
